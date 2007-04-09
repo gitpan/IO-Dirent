@@ -22,6 +22,7 @@ sub defines {
     open TEST, ">t.c" or die "$!";
     print TEST <<_CODE_; close TEST;
 #include <sys/dirent.h>
+#include <stdio.h>
 int main() 
 {
   struct dirent *dent;
@@ -37,7 +38,7 @@ int main()
 	  continue;
       }
   }
-  closedir (DIR);
+  closedir (dir);
 }
 _CODE_
 

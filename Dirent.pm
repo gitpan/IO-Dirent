@@ -19,7 +19,7 @@ require DynaLoader;
 	       );
 @EXPORT = qw( readdirent );
 %EXPORT_TAGS = ('ALL' => [@EXPORT, @EXPORT_OK]);
-$VERSION = '0.02';
+$VERSION = '0.03';
 
 use constant DT_UNKNOWN =>   0;
 use constant DT_FIFO    =>   1;    ## named pipe (fifo)

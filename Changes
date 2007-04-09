@@ -1,5 +1,21 @@
 Revision history for Perl extension IO::Dirent.
 
+----------------------------
+revision 1.2
+date: 2007/04/09 17:10:09;  author: scott;  state: Exp;  lines: +1 -1
+- fix Makefile.PL to use <stdio.h> for printf and stderr stream (Craig Barratt)
+- fix Makefile.PL to closedir(dir) instead of DIR (Craig Barratt)
+- version bump
+----------------------------
+revision 1.1
+date: 2007/04/09 14:54:06;  author: scott;  state: Exp;
+- initial import of IO::Dirent 0.02
+- new CVS repository
+=============================================================================
+
+0.02  Dec 2 2002
+        - stable, working
+
 0.01  Wed Nov 13 23:47:21 2002
 	- original version; created by h2xs 1.1.1.4
 
