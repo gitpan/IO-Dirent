@@ -19,7 +19,7 @@ require DynaLoader;
 	       );
 @EXPORT = qw( readdirent );
 %EXPORT_TAGS = ('ALL' => [@EXPORT, @EXPORT_OK]);
-$VERSION = '0.03';
+$VERSION = '0.04';
 
 use constant DT_UNKNOWN =>   0;
 use constant DT_FIFO    =>   1;    ## named pipe (fifo)
@@ -141,5 +141,13 @@ Thanks to Nick Ing-Simmons for his help on the perl-xs mailing list.
 =head1 SEE ALSO
 
 dirent(5), L<perlxstut>, L<perlxs>, L<perlguts>, L<perlapi>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2007 by Scott Wiersdorf
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.8.1 or,
+at your option, any later version of Perl 5 you may have available.
 
 =cut
