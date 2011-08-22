@@ -2,7 +2,7 @@
 use strict;
 use Test;
 
-BEGIN { plan tests => 3}
+BEGIN { plan tests => 5}
 use blib;
 use IO::Dirent qw(:ALL);
 ok(1);
@@ -29,4 +29,15 @@ for my $entry ( @entries ) {
 	skip( ! exists $entry->{'type'}, $entry->{'type'} == DT_REG );
     }
 }
-exit;
+
+opendir DIR, '.';
+while( my $entry = nextdirent(DIR) ) {
+    if( $entry->{'name'} eq 'blib' ) {
+        skip( ! exists $entry->{'type'}, $entry->{'type'} == DT_DIR );
+    }
+
+    if( $entry->{'name'} eq 'Dirent.pm' ) {
+	skip( ! exists $entry->{'type'}, $entry->{'type'} == DT_REG );
+    }
+}
+closedir DIR;

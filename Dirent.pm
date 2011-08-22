@@ -17,9 +17,9 @@ require DynaLoader;
 		 DT_SOCK
 		 DT_WHT
 	       );
-@EXPORT = qw( readdirent );
+@EXPORT = qw( readdirent nextdirent );
 %EXPORT_TAGS = ('ALL' => [@EXPORT, @EXPORT_OK]);
-$VERSION = '0.04';
+$VERSION = '0.05';
 
 use constant DT_UNKNOWN =>   0;
 use constant DT_FIFO    =>   1;    ## named pipe (fifo)
@@ -44,6 +44,7 @@ IO::Dirent - Access to dirent structs returned by readdir
 
   use IO::Dirent;
 
+  ## slurp-style
   opendir DIR, "/usr/local/foo";
   my @entries = readdirent(DIR);
   closedir DIR;
@@ -52,22 +53,35 @@ IO::Dirent - Access to dirent structs returned by readdir
   print $entries[0]->{type}, "\n";
   print $entries[0]->{inode}, "\n";
 
+  ## using the enumerator
+  opendir DIR, "/etc";
+  while( my $entry = nextdirent(DIR) ) {
+    print $entry->{name} . "\n";
+  }
+  closedir DIR;
+
 =head1 DESCRIPTION
 
-Returns a list of hashrefs. Each hashref contains the name of the
-directory entry, its inode for the filesystem it resides on and its
-type (if available). If the file type or inode are not available, it
-won't be there!
+B<readdirent> returns a list of hashrefs. Each hashref contains the
+name of the directory entry, its inode for the filesystem it resides
+on and its type (if available). If the file type or inode are not
+available, it won't be there!
+
+B<nextdirent> returns the next dirent as a hashref, allowing you to
+iterate over directory entries one by one. This may be helpful in
+low-memory situations or where you have enormous directories.
 
 B<IO::Dirent> exports the following symbols by default:
 
     readdirent
 
+    nextdirent
+
 The following tags may be exported to your namespace:
 
     ALL
 
-which includes B<readdirent> and the following symbols:
+which includes B<readdirent>, B<nextdirent> and the following symbols:
 
     DT_UNKNOWN
     DT_FIFO
@@ -95,11 +109,11 @@ to change, if I can implement some of the to do items below.
 
 =head1 CAVEATS
 
-This was written on FreeBSD which implements a robust (but somewhat
-non-standard) dirent struct and which includes a file type entry. I
-have plans to make this module more portable and useful by doing a
-stat on each directory entry to find the file type and inode number
-when the dirent.h does not implement it otherwise.
+This was written on FreeBSD and OS X which implement a robust (but
+somewhat non-standard) dirent struct and which includes a file type
+entry. I have plans to make this module more portable and useful by
+doing a stat on each directory entry to find the file type and inode
+number when the dirent.h does not implement it otherwise.
 
 Improvements and additional ports are welcome.
 
@@ -114,18 +128,13 @@ do a stat on the entry and populate the structure anyway.
 
 =item *
 
-Consider making B<readdirent> return a list of objects instead of a
-list of hashrefs. Nah...
-
-=item *
-
 Do some memory profiling (I'm not sure if I have any leaks or not).
 
 =back
 
 =head1 COPYRIGHT
 
-Copyright 2002 Scott Wiersdorf.
+Copyright 2002, 2011 Scott Wiersdorf.
 
 This library is free software; you can redistribute it and/or modify
 it under the terms of the Perl Artistic License.
